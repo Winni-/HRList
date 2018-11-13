@@ -1,14 +1,15 @@
-import React from 'react';
-import { Heading, Table, TableHead, SearchTableHeaderCell, TextTableHeaderCell, TableBody, TableRow, TextTableCell} from "evergreen-ui";
+import React, {useState} from 'react';
+import { Heading, TextInputField} from "evergreen-ui";
 import styled from "styled-components";
 import {SendHr} from "./SendHr";
 
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: auto 300px;
-  padding: 1em 5em;
-  grid-gap: 1em;
+const Page = styled.div`
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `
 
 export const Index = () => {
@@ -17,45 +18,39 @@ export const Index = () => {
       id: 1,
       phone: '+7 920 300 20 10',
       organization: 'OOO "dsfagfds"',
-      name: 'Name Name Jon'
+      agency: true
     },{
       id: 2,
-      phone: '+7 920 300 20 10',
-      organization: 'OOO "dsfagfds"',
-      name: ''
+      phone: '+7 920 300 20 11',
+      organization: 'OOO "1dsfagfds"',
+      agency: false
     },{
       id: 3,
-      phone: '+7 920 300 20 10',
-      organization: 'OOO "dsfagfds"',
-      name: 'Name Name Jon'
+      phone: '+7 920 300 20 12',
+      organization: 'OOO "2dsfagfds"',
+      agency: false
     }
   ];
-  return <Grid>
-    <main>
-      <Heading size={ 800 } marginBottom={24}>HR List</Heading>
-      <Table>
-        <TableHead>
-          <SearchTableHeaderCell />
-          <TextTableHeaderCell isSortable sortOrder="descending">
-            Organization
-          </TextTableHeaderCell>
-          <TextTableHeaderCell borderRight={null}>
-            Name
-          </TextTableHeaderCell>
-        </TableHead>
-        <TableBody height={240}>
-          {profiles.map(profile => (
-            <TableRow key={profile.id} isSelectable>
-              <TextTableCell>{profile.phone}</TextTableCell>
-              <TextTableCell>{profile.organization}</TextTableCell>
-              <TextTableCell borderRight={null}>
-                {profile.name}
-              </TextTableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </main>
+  const [number, setNumber] = useState('');
+  const handleSubmit = e => {
+    e.preventDefault();
+  };
+  const handleChange = e => {
+    setNumber(e.target.value)
+  }
+  return <div>
+    <Page>
+      <Heading size={ 600 } marginBottom={16}>Мне позвонили, это HR?</Heading>
+      <form onSubmit={handleSubmit}>
+        {/*TODO: phone formater*/}
+        <TextInputField
+          label="Phone Number"
+          type='phone'
+          onChange={handleChange}
+          value={number}
+        />
+      </form>
+    </Page>
     <SendHr/>
-  </Grid>
+  </div>
 };
